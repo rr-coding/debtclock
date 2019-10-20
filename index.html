@@ -20,58 +20,62 @@
 <style>
 section {
   border-top: 1px solid #bbb;
-  border-bottom: 1px solid #bbb;
 
   width:auto;
   float:none;
   padding-top:20px;
   padding-bottom:20px;
-  margin-bottom: 20px;
+  margin-bottom:20px;
 }
 
 footer {
 float:none;
 position:static;
 }
+    
 </style>
     <div class="wrapper">
-        <h1>Javascript Debt Clock</h1>
-        <p>Quick and dirty javascript project to reproduce money counter timers such as like on <a href="http://usdebtclock.org">US Debt Clock</a>.</p>
+        <h1>Defence Unstructured Data Clock</h1>
+        An illustration of the size (in megabytes) of our current known unstructured data holdings.
 
-<p> <b>NOTE:</b> Counter will begin to drift if the browser is kept open. The underlying library uses <code>setInterval()</code> which is not suitable for accurately keeping time. This is more for immediate effect than for keeping the clock running continuously. The proper values are however recalculated when the page is refreshed.</p>
-        <p>Uses <a href="https://jquery.com">jQuery</a> and <a href="https://sophilabs.github.io/jquery-counter">jquery-counter</a> library.
       </header>
+      
       <section>
-<h1>Examples</h1>
 <div>
-<h2>Debt Clock Increasing Showing Cents</h2>
-    <p>Debt clock can be used to increase in cents.</p>
-    <p>
-        <span class="increase-cents counter counter-analog"></span>
+
+<h3>Stored in Exchange (MODNET Official)</h3>
+    <p>   
+        <span class="data_clock_1 counter counter-analog2"></span>
     </p>
+   
 </div>
+
+          
 <div>
-<h2>Debt Clock Increasing With Micro-cents</h2>
-    <p>Change the number of fractional digits to show the value update faster</p>
+<h3>Stored in individual OneDrives (MODNET Official)</h3>
     <p>
-        <span class="increase-microcents counter counter-analog"></span>
+        <span class="data_clock_2 counter counter-analog2"></span>
     </p>
 </div>
 
 <div>
-<h2>Decreasing Debt</h2>
-    <p>Decreasing Debt</p>
+<h3>Defence Archive Service</h3>
     <p>
-        <span class="decrease counter counter-analog"></span>
+        <span class="data_clock_3 counter counter-analog2"></span>
     </p>
 </div>
-<div>
-<h2>Extra Leading Zeroes</h2>
-    <p>You can specify how many integer digits to display</p>
+
+      <section>
+          
+          <div>
+<h3>Total known unstructured holdings</h3>
     <p>
-        <span class="leadingzeroes counter counter-analog"></span>
+        <span class="data_clock_4 counter counter-analog2"></span>
     </p>
 </div>
+
+          
+          
     <script>
 
 function create_money_counter(jqSelector, initialValue, initialDate, changePerMonth, changeDirection, integerDigits, fractionDigits) {
@@ -82,14 +86,25 @@ function create_money_counter(jqSelector, initialValue, initialDate, changePerMo
   var changeInterval = Math.pow(10, (0-fractionDigits)) * 1000 / changePerSecond;
   console.log("Change Interval: "+changeInterval.toString());
   var currentValue = initialValue;
+    
   var secondsSinceInitial = (new Date() - initialDate)/1000;
+
+    
+//  document.write('###  initialDate= ');
+//    document.write(initialDate);
+//    document.write('###  new Date()= ');
+//    document.write(new Date());
+//    document.write('###  secondsSinceInitial= ');
+//    document.write(secondsSinceInitial);
+
+//  var secondsSinceInitial = 0;
   var diffSinceInitial = secondsSinceInitial*changePerSecond;
   if (changeDirection == 'down') {
     currentValue = currentValue - diffSinceInitial;
   } else {
     currentValue = currentValue + diffSinceInitial;
   }
-  var formatString = '$ ' +(Number.parseFloat("9".repeat(integerDigits) +'.' + '9'.repeat(fractionDigits))).toLocaleString('en-US', { minimumFractionDigits: fractionDigits, minimumIntegerDigits: integerDigits } ).split('').join(' ');
+  var formatString = (Number.parseFloat("9".repeat(integerDigits) +'.' + '9'.repeat(fractionDigits))).toLocaleString('en-US', { minimumFractionDigits: fractionDigits, minimumIntegerDigits: integerDigits } ).split('').join(' ')+ ' Mb';
 
   var calculatedInitialString = currentValue.toLocaleString('en-US', { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits, minimumIntegerDigits: integerDigits } ).split('').join(' ');
   console.log(calculatedInitialString);
@@ -104,49 +119,24 @@ function create_money_counter(jqSelector, initialValue, initialDate, changePerMo
 }
 
 
-create_money_counter('.increase-cents', 10000.00, new Date(2018, 8, 23, 16, 0, 0), 5000, 'up', 7, 2);
-create_money_counter('.increase-microcents', 10000.00, new Date(2018, 8, 23, 16, 0, 0), 5000, 'up', 7, 5);
-create_money_counter('.decrease', 500000.00, new Date(2018, 8, 23, 16, 0, 0), 1000, 'down', 6, 5);
-create_money_counter('.leadingzeroes', 250000.74, new Date(2018, 8, 23, 16, 0, 0), 100, 'down', 10, 5);
-    </script>
+create_money_counter('.data_clock_1', 2250000000.0, new Date(2019, 00, 1, 0, 0, 0), 70000000.0, 'up', 9, 2);
+create_money_counter('.data_clock_2', 1100000000, new Date(2019, 00, 1, 0, 0, 0), 20000000, 'up', 9, 2);
+create_money_counter('.data_clock_3', 2500000000, new Date(2019, 00, 1, 0, 0, 0), 0.001, 'up', 9, 2);
+create_money_counter('.data_clock_4', 5850000000, new Date(2019, 00, 1, 0, 0, 0), 90000000, 'up', 9, 2);
 
-<h1>Code</h1>
-
-<h2>Example Usage</h2>
-<pre><code>&lt;span class="debtclock counter counter-analog"&gt;&lt;/span&gt;
-&lt;script&gt;
-create_money_counter('.debtclock', 10000.00, new Date(2018, 8, 23, 16, 0, 0), 5000, 'up', 7, 2);
-&lt;/script&gt;</pre></code>
-
-<h2>Parameters</h2>
-<pre><code>create_money_counter(jqSelector, initialValue, initialDate, changePerMonth, 
-                     changeDirection, integerDigits, fractionDigits);
-</pre></code>
-
-<p><strong><code>jqSelector: string</code></strong><br>jQuery Selector of the span that should be turned into the counter</p>
-
-<p><strong><code>initialValue: float</code></strong><br>Initial value of the debt clock.</p>
-
-<p><strong><code>initialDate: Date</code></strong><br>The date the initial value was calculated.</p>
-
-<p><strong><code>changePerMonth: float</code></strong><br>The absolute value that debt clock should change per month</p>
-
-    <p><strong><code>changeDirection: up|down</code></strong><br>Counter direction </p>
+// notes
+// Assumes figures start at 1 Jan 2019
+// figures have to be x10 for reasons unclear!
+        
+          </script>
 
 
-
-<p><strong><code>integerDigits: integer</code></strong><br>The number of digits to display to the left of the decimal point in the counter</p>
-
-<p><strong><code>fractionDigits: integer</code></strong><br>The number of digits to display to the right of the decimal point in the counter</p>
 
 
       </section>
-      <footer>
-        <p><a href="https://github.com/jonmchan/debtclock">Debt Clock</a> by <a href="https://github.com/jonmchan">Jonathan Chan</a></p>
-      </footer>
+        <p>Based on <a href="https://github.com/jonmchan/debtclock">Debt Clock</a> by <a href="https://github.com/jonmchan">Jonathan Chan</a></p>
     </div>
     <script src="https://sophilabs.github.io/jquery-counter/javascripts/scale.fix.js"></script>
   </body>
 </html>
-
 
